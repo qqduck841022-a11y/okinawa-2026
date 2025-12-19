@@ -3,207 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Okinawa Trip 2025</title>
+    <title>Okinawa 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuedraggable/4.1.0/vuedraggable.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f0f7ff; }
-        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #f0f7ff; margin: 0; padding: 0; }
+        .active-tab { color: #2563eb; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .active-tab { color: #2563eb; background: white; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .soft-shadow { box-shadow: 0 10px 25px -5px rgba(186, 218, 255, 0.5); }
+        .glass-header { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); }
     </style>
 </head>
 <body class="max-w-md mx-auto shadow-2xl min-h-screen relative bg-[#f0f7ff]">
 
-<div id="app" class="pb-24">
-    <header class="relative w-full h-[250px] overflow-hidden">
-        <img src="header.jpg" alt="Okinawa Banner" class="w-full h-full object-cover">
+<div id="app">
+    <header class="relative w-full h-[250px] overflow-hidden bg-blue-200">
+        <img src="header.jpg" alt="Banner" class="w-full h-full object-cover" onerror="this.style.display='none'">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#f0f7ff]"></div>
         
-        <div class="absolute bottom-12 left-0 right-0 px-4 flex justify-between items-center z-10">
-            <div class="flex space-x-2 bg-white/60 p-1.5 rounded-2xl backdrop-blur-md w-full justify-around border border-white/40">
-                <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
-                        :class="['p-2 rounded-xl transition-all duration-300', activeTab === tab.id ? 'active-tab' : 'text-slate-500']">
-                    <i :data-lucide="tab.icon" class="w-6 h-6"></i>
+        <div class="absolute bottom-10 left-0 right-0 px-4 z-10">
+            <div class="flex bg-white/50 p-1 rounded-2xl backdrop-blur-md w-full justify-around border border-white/40">
+                <button v-for="t in ['itinerary', 'info', 'shopping', 'expenses']" :key="t" 
+                        @click="activeTab = t"
+                        :class="['p-3 rounded-xl transition-all', activeTab === t ? 'active-tab' : 'text-slate-500']">
+                    <span v-if="t === 'itinerary'">📍</span>
+                    <span v-if="t === 'info'">ℹ️</span>
+                    <span v-if="t === 'shopping'">🛒</span>
+                    <span v-if="t === 'expenses'">💰</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="relative -mt-8 bg-[#f0f7ff] rounded-t-[32px] min-h-[500px] px-4 pt-8">
+    <main class="relative -mt-6 bg-[#f0f7ff] rounded-t-[30px] px-4 pt-6 pb-24">
         
         <div v-if="activeTab === 'itinerary'">
-            <div class="mb-6 flex items-center justify-between bg-white/80 p-4 rounded-3xl soft-shadow border border-blue-50">
+            <div class="bg-white/80 p-4 rounded-3xl mb-6 shadow-sm flex items-center justify-between">
                 <div class="flex items-center">
-                    <i data-lucide="sun" class="w-10 h-10 text-orange-400 mr-3"></i>
+                    <span class="text-3xl mr-3">☀️</span>
                     <div>
-                        <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Naha, Okinawa</p>
-                        <p class="text-xl font-bold text-slate-700">21°C <span class="text-sm font-normal text-slate-400 ml-1">體感 19°C</span></p>
+                        <p class="text-xs text-blue-400 font-bold uppercase">Naha, Okinawa</p>
+                        <p class="text-xl font-bold text-slate-700">21°C</p>
                     </div>
                 </div>
+                <div class="text-right text-xs text-slate-400">體感 19°C</div>
             </div>
 
-            <div class="flex overflow-x-auto hide-scrollbar space-x-4 mb-6 pb-2">
-                <button v-for="(day, index) in itineraryData" :key="index" @click="selectedDayIndex = index"
-                        :class="['flex-shrink-0 flex flex-col items-center justify-center w-16 h-20 rounded-2xl transition-all', 
-                        selectedDayIndex === index ? 'bg-blue-600 text-white soft-shadow' : 'bg-white text-slate-400']">
-                    <span class="text-xs font-medium uppercase">{{ day.weekday }}</span>
-                    <span class="text-2xl font-bold">{{ day.date }}</span>
+            <div class="flex overflow-x-auto hide-scrollbar space-x-3 mb-6">
+                <button v-for="(day, idx) in itineraryData" :key="idx" 
+                        @click="selectedDayIdx = idx"
+                        :class="['flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center transition-all', 
+                                 selectedDayIdx === idx ? 'bg-blue-600 text-white' : 'bg-white text-slate-400']">
+                    <span class="text-[10px]">{{ day.weekday }}</span>
+                    <span class="text-xl font-bold">{{ day.date }}</span>
                 </button>
             </div>
 
-            <draggable v-model="itineraryData[selectedDayIndex].activities" item-key="id" handle=".handle">
-                <template #item="{element, index}">
-                    <div>
-                        <div v-if="index > 0" class="flex items-center justify-center my-2 text-blue-300">
-                            <div class="border-l-2 border-dashed border-blue-200 h-6 mr-4"></div>
-                            <div class="flex items-center text-xs font-medium bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-                                <i :data-lucide="getTransportIcon(element.transport)" class="w-3 h-3 mr-1"></i>
-                                交通中...
-                            </div>
-                        </div>
-
-                        <div :class="['relative p-4 rounded-3xl soft-shadow mb-4 border transition-all', 
-                                    element.category === '航班' ? 'bg-gradient-to-br from-blue-900 to-blue-800 text-white' : 'bg-white border-blue-50']"
-                             @click="element.category !== '航班' && openGoogleMaps(element.name)">
-                            <div class="flex justify-between items-start">
-                                <div class="flex-grow">
-                                    <span :class="['text-[10px] px-2 py-0.5 rounded-full font-bold mb-1 inline-block', 
-                                                 element.category === '航班' ? 'bg-blue-700' : 'bg-blue-100 text-blue-600']">
-                                        {{ element.category }}
-                                    </span>
-                                    <h3 class="font-bold text-lg mb-1">{{ element.name }}</h3>
-                                    <p class="text-xs opacity-70 flex items-center" v-if="element.time">
-                                        <i data-lucide="clock" class="w-3 h-3 mr-1"></i> {{ element.time }}
-                                    </p>
-                                </div>
-                                <div class="handle p-2 text-slate-300">
-                                    <i data-lucide="grip-vertical" class="w-5 h-5"></i>
-                                </div>
-                            </div>
-                            <div class="mt-2 pt-2 border-t border-slate-100/20 text-sm opacity-80" v-if="element.notes">
-                                {{ element.notes }}
-                            </div>
+            <div class="space-y-4">
+                <div v-for="(act, idx) in itineraryData[selectedDayIdx].activities" :key="idx">
+                    <div v-if="idx > 0" class="flex items-center py-2 ml-6">
+                        <div class="border-l-2 border-dashed border-blue-200 h-4 mr-4"></div>
+                        <div class="text-[10px] bg-blue-50 text-blue-400 px-2 py-0.5 rounded-full">
+                            {{ act.transport === 'walk' ? '🚶 步行' : act.transport === 'bus' ? '🚌 公車' : '🚗 開車' }}
                         </div>
                     </div>
-                </template>
-            </draggable>
 
-            <button class="fixed bottom-28 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-xl flex items-center justify-center z-20"><i data-lucide="plus" class="w-8 h-8"></i></button>
+                    <div @click="goMap(act.name)" :class="['p-4 rounded-[24px] shadow-sm border transition-all active:scale-95', 
+                                 act.category === '航班' ? 'bg-blue-900 text-white' : 'bg-white border-blue-50']">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span :class="['text-[10px] px-2 py-0.5 rounded-full font-bold mb-1 inline-block', 
+                                             act.category === '航班' ? 'bg-blue-700' : 'bg-blue-100 text-blue-600']">
+                                    {{ act.category }}
+                                </span>
+                                <h3 class="font-bold text-lg">{{ act.name }}</h3>
+                                <p class="text-xs opacity-70" v-if="act.time">🕒 {{ act.time }}</p>
+                            </div>
+                        </div>
+                        <p class="mt-2 text-sm opacity-80" v-if="act.notes">{{ act.notes }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div v-if="activeTab === 'info'" class="space-y-6">
-            <h2 class="text-2xl font-bold text-slate-800 mb-4">旅行資訊庫</h2>
-            
-            <div class="bg-white p-6 rounded-3xl soft-shadow">
-                <h3 class="font-bold mb-4 flex items-center"><i data-lucide="refresh-cw" class="w-4 h-4 mr-2 text-blue-500"></i>匯率換算 (當前約 0.215)</h3>
-                <div class="flex items-center space-x-4">
-                    <input type="number" v-model="jpyInput" class="w-full bg-slate-50 border-none rounded-xl p-3 text-lg" placeholder="日幣">
-                    <i data-lucide="arrow-right" class="text-blue-400"></i>
-                    <div class="w-full bg-blue-50 text-blue-700 font-bold rounded-xl p-3 text-lg">約 {{ (jpyInput * 0.215).toFixed(0) }} TWD</div>
-                </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm">
+                <h3 class="font-bold mb-4">匯率換算 (0.215)</h3>
+                <input type="number" v-model="jpy" class="w-full bg-slate-50 p-3 rounded-xl mb-2" placeholder="輸入日幣">
+                <p class="text-blue-600 font-bold">約台幣：{{ (jpy * 0.215).toFixed(0) }} 元</p>
             </div>
-
-            <div class="bg-blue-900 text-white p-6 rounded-3xl soft-shadow">
-                <h3 class="font-bold mb-4 flex items-center"><i data-lucide="plane" class="w-4 h-4 mr-2"></i>星宇航空 JX302/JX303</h3>
-                <div class="space-y-4 text-sm">
-                    <div class="flex justify-between border-b border-white/10 pb-2">
-                        <span>去程 1/4 (台中-那霸)</span>
-                        <span class="font-bold">13:15 - 15:45</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span>回程 1/10 (那霸-台中)</span>
-                        <span class="font-bold">16:45 - 17:35</span>
-                    </div>
-                </div>
+            <div class="bg-blue-900 text-white p-6 rounded-3xl shadow-sm">
+                <h3 class="font-bold mb-2">星宇航空 JX302 / JX303</h3>
+                <p class="text-sm">去程：13:15-15:45 (1/4)</p>
+                <p class="text-sm">回程：16:45-17:35 (1/10)</p>
             </div>
-
-            <div class="bg-white p-6 rounded-3xl soft-shadow border border-blue-50">
-                <h3 class="font-bold mb-2">Chura Gahna House Tsubogawa</h3>
-                <p class="text-xs text-slate-500 mb-4">入住：15:00後 | 退房：10:00前</p>
-                <button @click="openGoogleMaps('Chura Gahna House Tsubogawa Naha')" class="w-full py-3 bg-blue-50 text-blue-600 rounded-2xl font-bold text-sm">導航至飯店</button>
+            <div class="bg-white p-6 rounded-3xl shadow-sm">
+                <h3 class="font-bold mb-2">住宿：Chura Gahna House</h3>
+                <button @click="goMap('Chura Gahna House Tsubogawa')" class="w-full bg-blue-50 text-blue-600 py-3 rounded-xl font-bold">開啟地圖</button>
             </div>
-        </div>
-
-        <div v-if="activeTab === 'shopping'" class="space-y-4">
-            <h2 class="text-2xl font-bold text-slate-800">想買的物品</h2>
-            <div v-for="i in 3" class="bg-white p-4 rounded-3xl flex items-center space-x-4 soft-shadow">
-                <div class="w-12 h-12 bg-slate-100 rounded-xl"></div>
-                <p class="font-medium text-slate-400 italic">點擊 + 新增物品</p>
-            </div>
-            <button class="fixed bottom-28 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-xl flex items-center justify-center"><i data-lucide="plus" class="w-8 h-8"></i></button>
-        </div>
-
-        <div v-if="activeTab === 'expenses'" class="space-y-4">
-            <div class="bg-blue-900 p-8 rounded-[32px] text-white soft-shadow mb-6 text-center">
-                <p class="text-blue-300 text-xs mb-1 uppercase tracking-widest">Total Expenses</p>
-                <h2 class="text-4xl font-bold">¥ 0</h2>
-            </div>
-            <button class="fixed bottom-28 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-xl flex items-center justify-center"><i data-lucide="plus" class="w-8 h-8"></i></button>
         </div>
 
     </main>
+
+    <button class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg text-2xl flex items-center justify-center z-50">
+        +
+    </button>
 </div>
 
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script>
-    const { createApp, ref, onMounted, nextTick, watch } = Vue;
+    const { createApp, ref } = Vue;
     createApp({
         setup() {
             const activeTab = ref('itinerary');
-            const selectedDayIndex = ref(0);
-            const jpyInput = ref(1000);
-            const tabs = [{ id: 'itinerary', icon: 'calendar-days' }, { id: 'info', icon: 'info' }, { id: 'shopping', icon: 'shopping-bag' }, { id: 'expenses', icon: 'coins' }];
+            const selectedDayIdx = ref(0);
+            const jpy = ref(1000);
 
-            const itineraryData = ref([
-                { date: '4', weekday: 'Sat', activities: [
-                    { id: 1, name: '星宇航空 JX302', category: '航班', time: '13:15-15:45', notes: '台中機場2航廈 → 那霸機場', transport: 'plane' },
-                    { id: 2, name: 'iias 豐崎', category: '購物', time: '17:00', notes: '搭乘95號公車前往', transport: 'bus' },
-                    { id: 3, name: '民宿 Check-in', category: '住宿', time: '20:00', notes: '壺川站步行至 Chura Gahna House', transport: 'walk' }
+            const itineraryData = [
+                { date: '1/4', weekday: 'Sat', activities: [
+                    { name: '星宇航空 JX302', category: '航班', time: '13:15-15:45', notes: '台中 → 那霸', transport: 'plane' },
+                    { name: 'iias 豐崎', category: '購物', time: '17:00', notes: '95號公車', transport: 'bus' },
+                    { name: 'Chura Gahna House', category: '住宿', time: '20:00', notes: '壺川站步行', transport: 'walk' }
                 ]},
-                { date: '5', weekday: 'Sun', activities: [
-                    { id: 4, name: '國際通', category: '景點', time: '上午', notes: '單軌交通', transport: 'train' },
-                    { id: 5, name: 'ASHIBINNA Outlet', category: '購物', time: '下午', notes: '95號公車返回機場再前往', transport: 'bus' }
+                { date: '1/5', weekday: 'Sun', activities: [
+                    { name: '國際通', category: '景點', time: '上午', notes: '單軌交通', transport: 'train' },
+                    { name: 'ASHIBINNA Outlet', category: '購物', time: '下午', notes: '95號公車', transport: 'bus' }
                 ]},
-                { date: '6', weekday: 'Mon', activities: [
-                    { id: 6, name: '16:30 取車', category: '租車', time: '16:30', notes: 'Car Rental Okinawa', transport: 'car' },
-                    { id: 7, name: '海軍壕公園 / 沖繩月星', category: '景點', time: '17:30', notes: '溜滑梯行程', transport: 'car' },
-                    { id: 8, name: '瀨長島幸福鬆餅', category: '美食', time: '19:00', notes: '晚餐與看海', transport: 'car' }
+                { date: '1/6', weekday: 'Mon', activities: [
+                    { name: 'Car Rental Okinawa', category: '租車', time: '16:30', notes: '取車', transport: 'car' },
+                    { name: '瀨長島幸福鬆餅', category: '美食', time: '18:30', notes: '看夕陽', transport: 'car' }
                 ]},
-                { date: '7', weekday: 'Tue', activities: [
-                    { id: 9, name: '沖繩兒童王國', category: '景點', time: '10:00', notes: '親子行程', transport: 'car' },
-                    { id: 10, name: 'Big Heart 牛排', category: '美食', time: '13:00', notes: '在地推薦牛排', transport: 'car' },
-                    { id: 11, name: 'Birthday / 永旺夢樂城', category: '購物', time: '15:00', notes: '母嬰用品與大採買', transport: 'car' }
+                { date: '1/7', weekday: 'Tue', activities: [
+                    { name: '沖繩兒童王國', category: '景點', time: '10:00', notes: '親子行程', transport: 'car' },
+                    { name: 'Big Heart 牛排', category: '美食', time: '13:00', notes: '在地牛排', transport: 'car' },
+                    { name: '永旺夢樂城', category: '購物', time: '15:00', notes: 'AEON Mall', transport: 'car' }
                 ]},
-                { date: '8', weekday: 'Wed', activities: [
-                    { id: 12, name: '美麗海水族館', category: '景點', time: '10:30', notes: '黑潮之海', transport: 'car' },
-                    { id: 13, name: '古宇利島', category: '景點', time: '15:00', notes: '心形岩與古宇利大橋', transport: 'car' }
+                { date: '1/8', weekday: 'Wed', activities: [
+                    { name: '美麗海水族館', category: '景點', time: '10:30', notes: '黑潮之海', transport: 'car' },
+                    { name: '古宇利島', category: '景點', time: '15:00', notes: '心形岩', transport: 'car' }
                 ]},
-                { date: '9', weekday: 'Thu', activities: [
-                    { id: 14, name: '波上宮', category: '景點', time: '10:00', notes: '海上神社', transport: 'car' },
-                    { id: 15, name: 'PARCO CITY', category: '購物', time: '13:00', notes: '最後採買', transport: 'car' },
-                    { id: 16, name: '16:30 還車', category: '租車', time: '16:30', notes: '還車後搭接駁至赤嶺站', transport: 'car' }
+                { date: '1/9', weekday: 'Thu', activities: [
+                    { name: '波上宮', category: '景點', time: '10:00', notes: '海上神社', transport: 'car' },
+                    { name: 'PARCO CITY', category: '購物', time: '13:00', notes: '最後採買', transport: 'car' },
+                    { name: '還車處', category: '租車', time: '16:30', notes: '還車後搭接駁', transport: 'car' }
                 ]},
-                { date: '10', weekday: 'Fri', activities: [
-                    { id: 17, name: '民宿收行李', category: '住宿', time: '09:00', notes: '10:00前退房', transport: 'walk' },
-                    { id: 18, name: '搭計程車前往機場', category: '其他', time: '13:00', notes: '準備返家', transport: 'car' },
-                    { id: 19, name: '星宇航空 JX303', category: '航班', time: '16:45-17:35', notes: '那霸機場 → 台中機場', transport: 'plane' }
+                { date: '1/10', weekday: 'Fri', activities: [
+                    { name: '民宿收行李', category: '住宿', time: '09:00', notes: '退房', transport: 'walk' },
+                    { name: '星宇航空 JX303', category: '航班', time: '16:45-17:35', notes: '那霸 → 台中', transport: 'plane' }
                 ]}
-            ]);
+            ];
 
-            const openGoogleMaps = (dest) => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest)}`, '_blank');
-            const getTransportIcon = (t) => t === 'bus' ? 'bus' : t === 'car' ? 'car' : t === 'train' ? 'train' : t === 'plane' ? 'plane' : 'walking';
+            const goMap = (name) => {
+                if (name.includes('星宇')) return;
+                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`, '_blank');
+            };
 
-            onMounted(() => lucide.createIcons());
-            watch(activeTab, () => nextTick(() => lucide.createIcons()));
-
-            return { activeTab, tabs, itineraryData, selectedDayIndex, jpyInput, openGoogleMaps, getTransportIcon };
+            return { activeTab, selectedDayIdx, itineraryData, jpy, goMap };
         }
-    }).component('draggable', window.vuedraggable).mount('#app');
+    }).mount('#app');
 </script>
 </body>
-
 </html>
