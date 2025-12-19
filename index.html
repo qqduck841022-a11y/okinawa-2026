@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Okinawa Trip 2026</title>
+    <title>我的旅行計畫 2026</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -28,81 +28,64 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
-        body { background-color: #E5F3F7; -webkit-tap-highlight-color: transparent; font-family: 'Noto Sans TC', sans-serif; color: #334155; }
+        body { background-color: #E5F3F7; font-family: 'Noto Sans TC', sans-serif; color: #334155; }
         .app-container { max-width: 480px; margin: 0 auto; min-height: 100vh; background-color: #ffffff; box-shadow: 0 0 30px rgba(0, 0, 0, 0.05); position: relative; padding-bottom: 90px; }
-        .header-bg { background-color: #ffffff; padding: 0; position: relative; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; z-index: 10; }
-        .header-image-container { width: 100%; height: 250px; overflow: hidden; background-color: #01579B; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; }
-        .header-image-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .header-bg { background-color: #ffffff; border-bottom-left-radius: 35px; border-bottom-right-radius: 35px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); overflow: hidden; position: relative; }
+        .header-image-container { width: 100%; height: 250px; }
+        .header-image-container img { width: 100%; height: 100%; object-fit: cover; }
         .snow-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23fff" opacity="0.8"/><circle cx="20" cy="80" r="0.5" fill="%23fff" opacity="0.6"/><circle cx="70" cy="30" r="1.5" fill="%23fff" opacity="0.9"/></svg>'); background-size: 100px 100px; opacity: 0.7; animation: snowfall 10s linear infinite; z-index: 5; }
         @keyframes snowfall { to { background-position: 100px 100px; } }
-        .side-tab-bar { position: absolute; bottom: 45px; right: 16px; z-index: 30; display: flex; flex-direction: row; gap: 8px; }
-        .tab-button { width: 40px; height: 40px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-size: 1.125rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); transition: all 0.2s ease; }
-        .tab-button.active { background-color: #01579B; color: #ffffff; box-shadow: 0 6px 15px rgba(1, 87, 155, 0.4); transform: scale(1.05); }
-        .tab-button:not(.active) { background-color: #ffffff; color: #B3E5FC; }
-        .app-main { padding-top: 25px !important; position: relative; z-index: 5; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .card-shadow { box-shadow: 0 4px 20px rgba(179, 229, 252, 0.3); transition: transform 0.2s ease; }
+        .side-tab-bar { position: absolute; bottom: 45px; right: 16px; z-index: 30; display: flex; gap: 8px; }
+        .tab-button { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: white; color: #B3E5FC; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .tab-button.active { background-color: #01579B; color: white; }
+        .date-selector-sticky { background-color: #ffffff; border-bottom: 1px solid #f0f0f0; z-index: 20; position: sticky; top: 0; }
+        .card-shadow { box-shadow: 0 4px 20px rgba(179, 229, 252, 0.3); }
         .animate-fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .expense-category-tag { min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; }
-        .expenses-banner { background: linear-gradient(135deg, #01579B 0%, #0097A7 100%); }
-        .date-selector-sticky { background-color: #ffffff; border-bottom: 1px solid #f0f0f0; z-index: 20; top: 0; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .expense-category-tag { min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="app" class="app-container">
-
-    <div class="header-bg relative">
+    <div class="header-bg">
         <div class="header-image-container">
-            <img src="header.jpg" alt="Okinawa Trip">
+            <img src="https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?q=80&w=1000&auto=format&fit=crop" alt="Trip Cover">
         </div>
-        <div class="snow-layer"></div> 
+        <div class="snow-layer"></div>
         <div class="side-tab-bar">
-            <button @click="currentTab = 'itinerary'" :class="{'active': currentTab === 'itinerary'}" class="tab-button"><i class="fa-solid fa-map-location-dot"></i></button>
-            <button @click="currentTab = 'info'" :class="{'active': currentTab === 'info'}" class="tab-button"><i class="fa-solid fa-circle-info"></i></button>
-            <button @click="currentTab = 'shopping'" :class="{'active': currentTab === 'shopping'}" class="tab-button"><i class="fa-solid fa-basket-shopping"></i></button>
-            <button @click="currentTab = 'expenses'" :class="{'active': currentTab === 'expenses'}" class="tab-button"><i class="fa-solid fa-coins"></i></button>
+            <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id" :class="{'active': currentTab === tab.id}" class="tab-button">
+                <i :class="tab.icon"></i>
+            </button>
         </div>
     </div>
 
-    <main class="p-4 app-main">
+    <main class="p-4">
         <div v-if="currentTab === 'itinerary'" class="animate-fade-in">
-            <div class="flex overflow-x-auto hide-scrollbar space-x-3 pb-4 mb-2 sticky date-selector-sticky pt-1 -mx-4 px-4">
+            <div class="flex overflow-x-auto hide-scrollbar space-x-3 pb-4 mb-2 date-selector-sticky -mx-4 px-4 pt-2">
                 <div v-for="(day, index) in dates" :key="index" @click="selectedDateIndex = index"
                      class="flex-shrink-0 w-[58px] h-[68px] rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all border-2"
-                     :class="selectedDateIndex === index ? 'bg-deep-sea-blue text-white border-deep-sea-blue shadow-lg scale-105' : 'bg-white text-slate-400 border-white'">
-                    <span class="text-sm font-bold">{{ day.weekday }}</span> 
-                    <span class="text-xs opacity-70">{{ day.date }}</span> 
+                     :class="selectedDateIndex === index ? 'bg-deep-sea-blue text-white border-deep-sea-blue' : 'bg-white text-slate-400 border-white'">
+                    <span class="text-sm font-bold">{{ day.weekday }}</span>
+                    <span class="text-xs">{{ day.date }}</span>
                 </div>
             </div>
 
-            <div class="mb-4 bg-snow-white border border-ice-blue rounded-2xl p-4 flex justify-between items-center shadow-md">
-                <div>
-                    <span class="text-3xl font-extrabold text-deep-sea-blue">21°</span>
-                    <span class="text-xs text-slate-500 ml-1">/ 18°C Okinawa</span>
-                </div>
-                <div class="text-right">
-                    <span v-if="dates[selectedDateIndex].hasCar" class="text-deep-sea-blue font-bold text-xs">
-                        <i class="fa-solid fa-car-side mr-1 text-accent-yellow"></i> 已取車
-                    </span>
-                    <span v-else class="text-slate-400 text-xs">步行/大眾運輸</span>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <div v-for="(item, idx) in itineraryData[selectedDateIndex]" :key="idx" class="relative group">
-                    <div class="bg-white rounded-3xl p-5 card-shadow flex items-start border border-ice-blue/50">
+            <div class="space-y-4 mt-4">
+                <div v-for="(item, idx) in itineraryData[selectedDateIndex]" :key="idx">
+                    <div class="bg-white rounded-3xl p-5 card-shadow relative border border-ice-blue/50 flex items-start">
                         <div class="mr-4 flex flex-col items-center min-w-[50px]">
-                            <div class="p-2 rounded-full text-white shadow-md text-sm mb-1" :class="getCategoryColor(item.category)">
+                            <div class="p-2 rounded-full text-white bg-deep-sea-blue shadow-md mb-1">
                                 <i :class="getCategoryIcon(item.category)"></i>
                             </div>
-                            <span class="text-[10px] font-bold text-slate-500">{{ item.time }}</span>
+                            <span class="text-xs font-bold text-slate-600">{{ item.startTime }}</span>
                         </div>
                         <div class="flex-1">
-                            <h3 class="text-md font-bold text-slate-800">{{ item.name }}</h3>
-                            <p class="text-xs text-slate-500 mt-1">{{ item.note }}</p>
+                            <h3 class="text-lg font-bold text-slate-800">{{ item.name }}</h3>
+                            <p v-if="item.price" class="text-sm text-slate-500 mt-1"><i class="fa-solid fa-ticket mr-2 text-ice-blue"></i>{{ item.price }}</p>
+                            <p v-if="item.address" class="text-sm text-slate-500 mt-1"><i class="fa-solid fa-location-dot mr-2 text-ice-blue"></i>{{ item.address }}</p>
+                            <div v-if="item.note" class="mt-2 text-xs bg-slate-50 p-2 rounded-lg border border-slate-100 italic">{{ item.note }}</div>
                         </div>
                     </div>
                 </div>
@@ -110,120 +93,119 @@
         </div>
 
         <div v-if="currentTab === 'info'" class="space-y-5 animate-fade-in">
-            <div class="bg-gradient-to-r from-deep-sea-blue to-cyan-700 rounded-3xl p-6 text-white shadow-xl">
-                <h3 class="font-bold mb-4 flex items-center"><i class="fa-solid fa-calculator mr-2"></i> 匯率換算 (0.215)</h3>
-                <div class="flex items-center space-x-3">
-                    <input type="number" v-model="jpyInput" class="w-full bg-white/20 border border-white/30 rounded-xl px-3 py-2 text-white outline-none" placeholder="JPY">
-                    <i class="fa-solid fa-arrow-right-long text-cyan-300"></i>
-                    <div class="w-full bg-white/10 rounded-xl px-3 py-2 border border-transparent">TWD {{ (jpyInput * 0.215).toFixed(0) }}</div>
-                </div>
-            </div>
             <div class="bg-white rounded-3xl p-5 card-shadow">
-                <h3 class="font-bold text-slate-800 mb-3 border-b pb-2"><i class="fa-solid fa-plane-departure text-blue-500 mr-2"></i> 航班資訊</h3>
-                <div class="text-xs space-y-2">
-                    <div class="flex justify-between p-2 bg-blue-50 rounded-lg">
-                        <span>星宇 JX302</span>
-                        <span>01/04 13:15 → 15:45</span>
-                    </div>
-                    <div class="flex justify-between p-2 bg-orange-50 rounded-lg">
-                        <span>星宇 JX303</span>
-                        <span>01/10 16:45 → 17:35</span>
+                <h3 class="font-bold mb-3 border-b pb-2"><i class="fa-solid fa-plane-departure text-blue-500 mr-2"></i>航班資訊</h3>
+                <div class="space-y-2">
+                    <div v-for="flight in flights" class="bg-blue-50 rounded-xl p-3 border border-blue-100">
+                        <div class="flex justify-between font-bold text-deep-sea-blue text-sm">
+                            <span>{{ flight.from }}</span> <i class="fa-solid fa-plane"></i> <span>{{ flight.to }}</span>
+                        </div>
+                        <div class="flex justify-between text-xs text-slate-500 mt-1">
+                            <span>{{ flight.depTime }}</span> <span>{{ flight.code }}</span> <span>{{ flight.arrTime }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div v-if="currentTab === 'shopping'" class="text-center py-20 text-slate-300">
-            <i class="fa-solid fa-bag-shopping text-5xl mb-3"></i>
-            <p>購物清單開發中...</p>
-        </div>
+            <div class="bg-white rounded-3xl p-5 card-shadow">
+                <h3 class="font-bold mb-3 border-b pb-2"><i class="fa-solid fa-hotel text-indigo-500 mr-2"></i>住宿資訊</h3>
+                <div v-for="hotel in hotels" class="mb-4 last:mb-0 border-b last:border-0 pb-3">
+                    <p class="font-bold text-slate-700">{{ hotel.name }}</p>
+                    <p class="text-xs text-slate-400">{{ hotel.date }}</p>
+                    <p class="text-sm text-slate-500 mt-1"><i class="fa-solid fa-phone mr-2 text-slate-300"></i>{{ hotel.phone }}</p>
+                </div>
+            </div>
 
-        <div v-if="currentTab === 'expenses'" class="animate-fade-in">
-            <div class="expenses-banner text-white rounded-3xl p-8 mb-6 relative">
-                <p class="text-sm text-cyan-200 mb-2">預估總支出</p>
-                <h2 class="text-4xl font-bold">¥ 85,000</h2>
+            <div class="bg-white rounded-3xl p-5 card-shadow">
+                <h3 class="font-bold mb-3 border-b pb-2"><i class="fa-solid fa-car text-green-500 mr-2"></i>租車資訊</h3>
+                <div class="text-sm space-y-2">
+                    <div class="flex justify-between"><span>公司</span><span class="font-bold">{{ carRental.company }}</span></div>
+                    <div class="flex justify-between"><span>型號</span><span class="font-bold">{{ carRental.model }}</span></div>
+                    <div class="flex justify-between"><span>取車</span><span class="font-bold">{{ carRental.pickup }}</span></div>
+                </div>
             </div>
         </div>
     </main>
-
-    <button v-if="currentTab !== 'info'" class="fixed bottom-6 right-6 w-14 h-14 bg-accent-yellow rounded-full shadow-lg text-deep-sea-blue text-2xl flex items-center justify-center z-40">
-        <i class="fa-solid fa-plus"></i>
-    </button>
 </div>
 
 <script>
     const { createApp, ref } = Vue;
+
     createApp({
         setup() {
             const currentTab = ref('itinerary');
             const selectedDateIndex = ref(0);
-            const jpyInput = ref(1000);
 
+            // === 您的行程資料開始 (在此修改內容) ===
+            
             const dates = [
-                { date: '1/4', weekday: 'SAT', hasCar: false },
-                { date: '1/5', weekday: 'SUN', hasCar: false },
-                { date: '1/6', weekday: 'MON', hasCar: true },
-                { date: '1/7', weekday: 'TUE', hasCar: true },
-                { date: '1/8', weekday: 'WED', hasCar: true },
-                { date: '1/9', weekday: 'THU', hasCar: true },
-                { date: '1/10', weekday: 'FRI', hasCar: false }
+                { weekday: '五', date: '2/1' },
+                { weekday: '六', date: '2/2' },
+                { weekday: '日', date: '2/3' }
             ];
 
+            const flights = [
+                { from: 'TPE 台北', to: 'CTS 札幌', depTime: '08:35', arrTime: '13:15', code: 'CI0130', date: '2/1' },
+                { from: 'CTS 札幌', to: 'TPE 台北', depTime: '14:40', arrTime: '18:15', code: 'CI0131', date: '2/7' }
+            ];
+
+            const hotels = [
+                { name: '札幌大通東急STAY酒店', date: '2/1 - 2/3', phone: '011-222-1090', address: '札幌市中央區大通西...' },
+                { name: '定山溪溫泉旅館', date: '2/3 - 2/4', phone: '011-598-2111', address: '北海道札幌市南區...' }
+            ];
+
+            const carRental = {
+                company: 'Nissan Rent a Car',
+                model: 'Kicks (e-POWER/4WD)',
+                pickup: '2/2 08:00 札幌駅南口'
+            };
+
             const itineraryData = [
-                // Day 1
+                // Day 1 (2/1)
                 [
-                    { name: '星宇航空 JX302', category: 'flight', time: '13:15', note: '台中 → 那霸' },
-                    { name: 'iias 豐崎', category: 'shopping', time: '17:00', note: '搭乘 95 號公車' },
-                    { name: 'Chura Gahna House', category: 'stay', time: '20:00', note: '辦理入住 (壺川站)' }
+                    { startTime: '06:00', name: '桃園機場報到', category: 'transport', note: '中華航空 CI0130' },
+                    { startTime: '13:15', name: '抵達新千歲機場', category: 'transport', note: '領取行李與確認巴士站' },
+                    { startTime: '15:00', name: '飯店 Check-in', category: 'stay', address: '札幌大通東急STAY' }
                 ],
-                // Day 2
+                // Day 2 (2/2)
                 [
-                    { name: '國際通', category: 'spot', time: '10:00', note: '單軌交通一日遊' },
-                    { name: 'ASHIBINNA Outlet', category: 'shopping', time: '15:00', note: '精品採買' }
+                    { startTime: '08:00', name: '租車取車', category: 'transport', note: '記得帶台灣駕照+日文譯本' },
+                    { startTime: '10:30', name: '旭山動物園', category: 'scenic', price: '¥1,000/人', note: '企鵝散步必看' },
+                    { startTime: '18:00', name: '成吉思汗烤肉', category: 'food' }
                 ],
-                // Day 3
+                // Day 3 (2/3)
                 [
-                    { name: 'Car Rental 取車', category: 'car', time: '16:30', note: '開始自駕之旅' },
-                    { name: '瀨長島幸福鬆餅', category: 'food', time: '18:30', note: '看夕陽吃下午茶' }
-                ],
-                // Day 4
-                [
-                    { name: '沖繩兒童王國', category: 'spot', time: '10:00', note: '親子動物園行程' },
-                    { name: 'Big Heart 牛排', category: 'food', time: '13:00', note: '在地知名平價牛排' },
-                    { name: '永旺夢樂城 (Rycom)', category: 'shopping', time: '15:00', note: '全沖繩最大購物中心' }
-                ],
-                // Day 5
-                [
-                    { name: '美麗海水族館', category: 'spot', time: '10:30', note: '黑潮之海餵食秀' },
-                    { name: '古宇利島', category: 'spot', time: '15:00', note: '跨海大橋與心形岩' }
-                ],
-                // Day 6
-                [
-                    { name: '波上宮', category: 'spot', time: '10:00', note: '懸崖上的海上神社' },
-                    { name: 'PARCO CITY', category: 'shopping', time: '13:00', note: '最後大採買' },
-                    { name: '還車處', category: 'car', time: '16:30', note: '還車並搭接駁回市區' }
-                ],
-                // Day 7
-                [
-                    { name: '民宿 Check-out', category: 'stay', time: '10:00', note: '整理行李' },
-                    { name: '星宇航空 JX303', category: 'flight', time: '16:45', note: '那霸 → 台中' }
+                    { startTime: '09:00', name: '小樽運河漫步', category: 'scenic' },
+                    { startTime: '12:00', name: '三角市場海鮮丼', category: 'food', note: '推薦「武田鮮魚店」' }
                 ]
             ];
 
+            // === 您的行程資料結束 ===
+
+            const tabs = [
+                { id: 'itinerary', icon: 'fa-solid fa-map-location-dot' },
+                { id: 'info', icon: 'fa-solid fa-circle-info' },
+                { id: 'shopping', icon: 'fa-solid fa-basket-shopping' },
+                { id: 'expenses', icon: 'fa-solid fa-coins' }
+            ];
+
             const getCategoryIcon = (cat) => {
-                const icons = { flight: 'fa-plane', shopping: 'fa-bag-shopping', stay: 'fa-hotel', spot: 'fa-camera', food: 'fa-utensils', car: 'fa-car' };
-                return icons[cat] || 'fa-location-dot';
+                const icons = {
+                    transport: 'fa-solid fa-plane',
+                    stay: 'fa-solid fa-hotel',
+                    food: 'fa-solid fa-utensils',
+                    scenic: 'fa-solid fa-camera',
+                    shopping: 'fa-solid fa-bag-shopping'
+                };
+                return icons[cat] || 'fa-solid fa-star';
             };
 
-            const getCategoryColor = (cat) => {
-                const colors = { flight: 'bg-blue-600', shopping: 'bg-pink-500', stay: 'bg-indigo-500', spot: 'bg-green-500', food: 'bg-orange-500', car: 'bg-slate-700' };
-                return colors[cat] || 'bg-slate-400';
+            return {
+                currentTab, selectedDateIndex, dates, flights, hotels, carRental, itineraryData, tabs, getCategoryIcon
             };
-
-            return { currentTab, selectedDateIndex, dates, itineraryData, jpyInput, getCategoryIcon, getCategoryColor };
         }
     }).mount('#app');
 </script>
+
 </body>
 </html>
-
