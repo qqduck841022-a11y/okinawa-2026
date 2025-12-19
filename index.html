@@ -139,14 +139,19 @@
             // === 您的行程資料開始 (在此修改內容) ===
             
             const dates = [
-                { weekday: '五', date: '2/1' },
-                { weekday: '六', date: '2/2' },
-                { weekday: '日', date: '2/3' }
+                { date: '1/4', weekday: '日', hasCar: false, tollFee: 0 },
+                { date: '1/5', weekday: '一', hasCar: true, tollFee: 0 }, 
+                { date: '1/6', weekday: '二', hasCar: true, tollFee: 0 },// 1/6租車日開始
+                { date: '1/7', weekday: '三', hasCar: true, tollFee: 0 },
+                { date: '1/8', weekday: '四', hasCar: true, tollFee: 0 },
+                { date: '1/9', weekday: '五', hasCar: true, tollFee: 0 }, // 1/9 還車
+                { date: '1/10', weekday: '六', hasCar: false, tollFee: 0 },
+
             ];
 
             const flights = [
-                { from: 'TPE 台北', to: 'CTS 札幌', depTime: '08:35', arrTime: '13:15', code: 'CI0130', date: '2/1' },
-                { from: 'CTS 札幌', to: 'TPE 台北', depTime: '14:40', arrTime: '18:15', code: 'CI0131', date: '2/7' }
+                { from: 'RMQ 台中', to: 'OKA 札幌', depTime: '13:15', arrTime: '15:45', code: 'JX302', date: '1/4' },
+                { from: 'OKA 那霸', to: 'RMQ 台中', depTime: '16:45', arrTime: '17:35', code: 'JX303', date: '1/10' }
             ];
 
             const hotels = [
@@ -161,19 +166,39 @@
             };
 
             const itineraryData = [
-                // Day 1 (2/1)
+                // Day 1 (1/4)
                 [
-                    { startTime: '06:00', name: '桃園機場報到', category: 'transport', note: '中華航空 CI0130' },
+                    { startTime: '06:00', name: '台中機場報到', category: 'transport', note: '中華航空 CI0130' },
                     { startTime: '13:15', name: '抵達新千歲機場', category: 'transport', note: '領取行李與確認巴士站' },
                     { startTime: '15:00', name: '飯店 Check-in', category: 'stay', address: '札幌大通東急STAY' }
                 ],
-                // Day 2 (2/2)
+                // Day 2 (1/5)
                 [
                     { startTime: '08:00', name: '租車取車', category: 'transport', note: '記得帶台灣駕照+日文譯本' },
                     { startTime: '10:30', name: '旭山動物園', category: 'scenic', price: '¥1,000/人', note: '企鵝散步必看' },
                     { startTime: '18:00', name: '成吉思汗烤肉', category: 'food' }
                 ],
-                // Day 3 (2/3)
+                // Day 3 (1/6)
+                [
+                    { startTime: '09:00', name: '小樽運河漫步', category: 'scenic' },
+                    { startTime: '12:00', name: '三角市場海鮮丼', category: 'food', note: '推薦「武田鮮魚店」' }
+                ]
+                // Day 4 (1/7)
+                [
+                    { startTime: '09:00', name: '小樽運河漫步', category: 'scenic' },
+                    { startTime: '12:00', name: '三角市場海鮮丼', category: 'food', note: '推薦「武田鮮魚店」' }
+                ]
+                // Day 5 (1/8)
+                [
+                    { startTime: '09:00', name: '小樽運河漫步', category: 'scenic' },
+                    { startTime: '12:00', name: '三角市場海鮮丼', category: 'food', note: '推薦「武田鮮魚店」' }
+                ]
+                // Day 6 (1/9)
+                [
+                    { startTime: '09:00', name: '小樽運河漫步', category: 'scenic' },
+                    { startTime: '12:00', name: '三角市場海鮮丼', category: 'food', note: '推薦「武田鮮魚店」' }
+                ]
+                // Day 7 (1/10)
                 [
                     { startTime: '09:00', name: '小樽運河漫步', category: 'scenic' },
                     { startTime: '12:00', name: '三角市場海鮮丼', category: 'food', note: '推薦「武田鮮魚店」' }
@@ -209,4 +234,5 @@
 
 </body>
 </html>
+
 
