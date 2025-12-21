@@ -225,7 +225,7 @@
 
     <div class="header-bg relative">
         <div class="header-image-container">
-            <img src="IMG_4330.PNG" alt="沖繩旅行計畫">
+            <img src="IMG_4330.PNG" alt="北海道家族旅行計畫">
         </div>
         
         <div class="snow-layer"></div> 
@@ -399,26 +399,26 @@ text-cyan-200 block mb-1 uppercase tracking-wider">JPY (日幣)</label>
                 <div class="space-y-4">
                     <div class="bg-blue-50 rounded-xl p-3 border border-blue-100">
                         <div class="flex justify-between text-sm font-bold text-deep-sea-blue mb-1">
-                            <span>RMQ 台中</span>
+                            <span>TPE 台北</span>
                             <i class="fa-solid fa-plane text-xs"></i>
-                            <span>OKA 沖繩</span>
+                            <span>CTS 札幌</span>
                         </div>
                         <div class="flex justify-between text-xs text-slate-500">
+                            <span>08:35</span>
+                            <span>CI0130 (2/1)</span>
                             <span>13:15</span>
-                            <span>JX201 (1/4)</span>
-                            <span>15:45</span>
                         </div>
                     </div>
                     <div class="bg-orange-50 rounded-xl p-3 border border-orange-100">
                         <div class="flex justify-between text-sm font-bold text-orange-800 mb-1">
-                            <span>OKA 沖繩</span>
+                            <span>CTS 札幌</span>
                             <i class="fa-solid fa-plane text-xs"></i>
-                            <span>RMQ 台中</span>
+                            <span>TPE 台北</span>
                         </div>
                         <div class="flex justify-between text-xs text-slate-500">
-                            <span>16:45</span>
-                            <span>JX303 (1/10)</span>
-                            <span>17:35</span>
+                            <span>14:40</span>
+                            <span>CI0131 (2/7)</span>
+                            <span>18:15</span>
                         </div>
                     </div>
                 </div>
@@ -448,21 +448,21 @@ text-cyan-200 block mb-1 uppercase tracking-wider">JPY (日幣)</label>
                 <div class="text-sm space-y-3">
                     <div class="flex justify-between">
                         <span class="text-slate-500">公司</span>
-                        <span class="font-bold text-slate-700">Car Rental Okinawa</span>
+                        <span class="font-bold text-slate-700">Nissan Rent a Car</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-slate-500">取車點</span>
-                        <span class="font-bold text-slate-700 text-right">那霸機場或赤嶺站</span>
+                        <span class="font-bold text-slate-700 text-right">札幌駅南口アスティ店</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-slate-500">期間</span>
-                        <span class="font-bold text-slate-700">1/6 16:30 - 1/9 16:30</span>
+                        <span class="font-bold text-slate-700">2/2 08:00 - 2/6 20:00</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-slate-500">車型</span>
-                        <span class="font-bold text-slate-700">丰田Roomy</span>
+                        <span class="font-bold text-slate-700">Kicks (油電)</span>
                     </div>
-                    <button @click="openMap('Car Rental Okinawa カーレンタル沖縄')" class="w-full mt-4 bg-green-50 text-green-700 py-3 rounded-xl text-sm font-bold hover:bg-green-100 transition-colors flex items-center justify-center">
+                    <button @click="openMap('Nissan Rent a Car Sapporo Station South Exit Asty')" class="w-full mt-4 bg-green-50 text-green-700 py-3 rounded-xl text-sm font-bold hover:bg-green-100 transition-colors flex items-center justify-center">
                         <i class="fa-solid fa-diamond-turn-right mr-2"></i> 導航去取車點
                     </button>
                 </div>
@@ -685,26 +685,26 @@ rounded-xl p-3 text-sm text-slate-600 outline-none">
             // --- 資料定義：已根據使用者最新行程全部更新 ---
             
             const dates = ref([
-                { date: '1/4', weekday: '日', hasCar: false, tollFee: 0 },
-                { date: '1/5', weekday: '一', hasCar: true, tollFee: 0 }, 
-                { date: '1/6', weekday: '二', hasCar: true, tollFee: 0 }, // 1/6 租車日開始
-                { date: '1/7', weekday: '三', hasCar: true, tollFee: 0 },
-                { date: '1/8', weekday: '四', hasCar: true, tollFee: 0 },
-                { date: '1/9', weekday: '五', hasCar: true, tollFee: 0 }, // 1/9 還車
-                { date: '1/10', weekday: '六', hasCar: false, tollFee: 0 },
+                { date: '1/4', weekday: '六', hasCar: false, tollFee: 0 },
+                { date: '1/5', weekday: '日', hasCar: true, tollFee: 0 }, 
+                { date: '1/6', weekday: '一', hasCar: true, tollFee: 0 }, // 1/6 租車日開始
+                { date: '1/7', weekday: '二', hasCar: true, tollFee: 0 },
+                { date: '1/8', weekday: '三', hasCar: true, tollFee: 0 },
+                { date: '1/9', weekday: '四', hasCar: true, tollFee: 0 }, // 1/9 還車
+                { date: '1/10', weekday: '五', hasCar: false, tollFee: 0 },
             ]);
 
             const hotels = ref([
-                { name: 'Chura Gahna House Tsubogawa Naha', date: '1/4 - 1/10 (6晚)', phone: '+81-9019459841', address: 'Tsubogawa 2-1-3, 900-0025 那霸市, 沖繩縣, 日本' },
+                { name: 'Chura Gahna House Tsubogawa', date: '1/4 - 1/10 (6晚)', phone: '+81988556061', address: '2 Chome-1-3 Tsubogawa, Naha, Okinawa 900-0025日本' },
             ]);
             
             // 使用者的完整行程資料 (已根據最新的排程更新)
             const itineraryData = ref([
                 // Day 1: 1/4 (日) 
                 [
-                    { id: 101, name: '台中機場報到', category: 'flight', startTime: '10:00', address: '台中國際機場 (RMQ)', note: '星宇航空 JX302 13:15起飛', hours: null, price: null, transportType: 'flight', travelTime: null, isNoteExpanded: false },
-                    { id: 102, name: '那霸機場 (OKA) 抵達', category: 'flight', startTime: '15:45', address: '那霸機場', note: '領取行李與確認巴士站牌', hours: null, price: null, transportType: 'flight', travelTime: '1h30m', isNoteExpanded: false },
-                    { id: 103, name: '搭乘95號公車前往iias豐崎', category: 'transport', startTime: '~14:30', address: '札幌大通東急STAY酒店', note: '國內線14, 22站台搭車，分直達/全達，車程約60-80分鐘。', hours: null, price: '約 ¥1,400/人', transportType: 'bus', travelTime: '1h30m', isNoteExpanded: false },
+                    { id: 101, name: '桃園機場報到', category: 'flight', startTime: '06:00', address: '桃園國際機場 (TPE)', note: '中華航空 CI0130 08:35起飛', hours: null, price: null, transportType: 'flight', travelTime: null, isNoteExpanded: false },
+                    { id: 102, name: '新千歲機場 (CTS) 抵達', category: 'flight', startTime: '13:15', address: '新千歲機場', note: '領取行李與確認巴士站牌', hours: null, price: null, transportType: 'flight', travelTime: '4h40m', isNoteExpanded: false },
+                    { id: 103, name: '搭乘機場巴士至札幌', category: 'transport', startTime: '~14:30', address: '札幌大通東急STAY酒店', note: '國內線14, 22站台搭車，分直達/全達，車程約60-80分鐘。', hours: null, price: '約 ¥1,400/人', transportType: 'bus', travelTime: '1h30m', isNoteExpanded: false },
                     { id: 104, name: '札幌大通東急STAY酒店 Check-in', category: 'accommodation', startTime: '~16:00', address: '札幌東急大通酒店', note: '完成住宿手續並稍作休息', hours: null, price: null, transportType: 'walk', travelTime: '10m', isNoteExpanded: false },
                     { id: 105, name: '晚餐 (湯咖哩)', category: 'food', startTime: '~17:00', address: 'Soup Curry GARAKU 或 奥芝商店 実家', note: '人氣：燉豬肉湯咖哩、嫩雞腿和蔬菜湯咖哩', hours: '17:00-20:30', price: null, transportType: 'walk', travelTime: '15m', isNoteExpanded: false },
                     { id: 106, name: '大通公園 & 札幌電視塔', category: 'sightseeing', startTime: '~19:00', address: '大通公園 & 札幌電視塔', note: '欣賞夜景，電視塔觀景台高 90.38m。冬季有燈飾。', hours: '9:00-22:00 (電視塔)', price: '觀景台門票', transportType: 'walk', travelTime: '5m', isNoteExpanded: false },
@@ -1078,5 +1078,4 @@ rounded-xl p-3 text-sm text-slate-600 outline-none">
 </script>
 </body>
 </html>
-
 
